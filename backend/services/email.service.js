@@ -1,5 +1,6 @@
 const Imap = require('node-imap');
 const { simpleParser } = require('mailparser');
+const { PDFParse } = require('pdf-parse');
 const emailConfig = require('../config/email.config');
 const { supabase } = require('../config/supabase.config'); 
 
@@ -223,38 +224,39 @@ async disconnect() {
           
           
           const fetch = this.imap.fetch(results, {
-            bodies: ['HEADER', 'TEXT'],
+            bodies: '', // fetch full email
             struct: true
           });
           
           const emails = [];
+          const promises = [];
           
           fetch.on('message', (msg) => {
-            const email = { headers: {}, text: '', attachments: [] };
-            
-            msg.on('body', (stream, info) => {
-              let buffer = '';
-              stream.on('data', (chunk) => {
-                buffer += chunk.toString('utf8');
-              });
-              
-              stream.once('end', () => {
-                if (info.which === 'HEADER') {
-                  email.headers = Imap.parseHeader(buffer);
-                } else if (info.which === 'TEXT') {
-                  email.text = buffer;
-                }
-              });
-            });
-            
-            msg.once('attributes', (attrs) => {
-              email.uid = attrs.uid;
-              email.flags = attrs.flags;
-            });
-            
-            msg.once('end', () => {
-              emails.push(email);
-            });
+            const tempEmail = { uid: null, flags: null, parsed: null };
+            const msgPromise = new Promise((resolveMsg) => {
+              let parsedPromise = Promise.resolve();
+              msg.on('body', (stream, info) => {
+                parsedPromise = simpleParser(stream)
+                  .then(parsed => {
+                    tempEmail.parsed = parsed;
+                  })
+                  .catch(err => {
+                    console.error('Error parsing email with simpleParser:', err);
+                  });
+              });
+              
+              msg.once('attributes', (attrs) => {
+                tempEmail.uid = attrs.uid;
+                tempEmail.flags = attrs.flags;
+              });
+              
+              msg.once('end', () => {
+                parsedPromise.then(() => {
+                  resolveMsg(tempEmail);
+                });
+              });
+            });
+            promises.push(msgPromise);
           });
           
           fetch.once('error', (fetchErr) => {
@@ -263,8 +265,12 @@ async disconnect() {
           });
           
           fetch.once('end', () => {
-            console.log(`Successfully fetched ${emails.length} emails`);
-            resolve(emails);
+            Promise.all(promises).then(resolvedEmails => {
+              // Only keep ones that successfully parsed
+              const validEmails = resolvedEmails.filter(e => e.parsed);
+              console.log(`Successfully fetched ${validEmails.length} emails`);
+              resolve(validEmails);
+            }).catch(reject);
           });
         });
       });
@@ -308,42 +314,32 @@ async disconnect() {
 
   async processEmail(email) {
     try {
-      if (!email) {
+      if (!email || !email.parsed) {
         console.error('No email data provided');
         return null;
       }
 
+      const parsed = email.parsed;
+      const fromHeader = parsed.from ? parsed.from.text : '';
+      const toHeader = parsed.to ? parsed.to.text : '';
+      const subject = parsed.subject || 'No Subject';
       
-      const headers = email.headers || {};
-      const fromHeader = Array.isArray(headers.from) ? headers.from[0] : (headers.from || '');
-      const toHeader = Array.isArray(headers.to) ? headers.to[0] : (headers.to || '');
-      const subject = Array.isArray(headers.subject) ? headers.subject[0] : (headers.subject || 'No Subject');
-      
-      
-      let appliedDate = new Date();
-      if (headers.date) {
-        const dateStr = Array.isArray(headers.date) ? headers.date[0] : headers.date;
-        const parsedDate = new Date(dateStr);
-        if (!isNaN(parsedDate.getTime())) {
-          appliedDate = parsedDate;
-        }
-      }
-      
+      let appliedDate = parsed.date || new Date();
       
       let emailAddress = '';
       let name = 'Unknown Sender';
       
-      if (fromHeader) {
+      if (parsed.from && parsed.from.value && parsed.from.value.length > 0) {
+        const sender = parsed.from.value[0];
+        emailAddress = sender.address || '';
+        name = sender.name || emailAddress.split('@')[0] || 'Unknown Sender';
+      } else if (fromHeader) {
         try {
-          
           const match = fromHeader.match(/^\s*"?([^"]*)"?\s*<([^>]+)>/);
-          
           if (match) {
-            
             name = (match[1] || name).trim();
             emailAddress = (match[2] || '').trim().toLowerCase();
           } else if (fromHeader.includes('@')) {
-            
             const emailMatch = fromHeader.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
             if (emailMatch) {
               emailAddress = emailMatch[0].toLowerCase();
@@ -355,35 +351,47 @@ async disconnect() {
         }
       }
       
-      
       if (!emailAddress) {
         emailAddress = `unknown-${Date.now()}@placeholder.com`;
         console.warn(`No valid email found in headers, using placeholder: ${emailAddress}`);
       }
       
-      
       name = name.replace(/[^\p{L}\s]/gu, ' ').replace(/\s+/g, ' ').trim() || 'Unknown Sender';
       
+      const emailBody = parsed.text || parsed.html || '';
+      let resumeText = '';
+      let has_resume = false;
       
-      const emailBody = email.text || email.html || '';
+      // Process PDF attachments
+      if (parsed.attachments && parsed.attachments.length > 0) {
+        for (const att of parsed.attachments) {
+          if (att.contentType === 'application/pdf' || (att.filename && att.filename.toLowerCase().endsWith('.pdf'))) {
+            try {
+              const parser = new PDFParse({ data: att.content }); const pdfData = await parser.getText();
+              resumeText += `\n\n--- PDF EXTRACTED TEXT FROM ${att.filename} ---\n\n${pdfData.text}\n\n`;
+              has_resume = true;
+            } catch (err) {
+              console.error('Error parsing PDF attachment:', err);
+            }
+          }
+        }
+      }
       
+      const fullText = (resumeText) ? `${emailBody}\n\n${resumeText}` : emailBody;
       
       const safeHeaders = {
         from: fromHeader,
         to: toHeader,
         subject: subject,
         date: appliedDate.toISOString(),
-        'message-id': headers['message-id'] || ''
+        'message-id': parsed.messageId || ''
       };
-      
       
       const emailData = {
         name: name,
         email: emailAddress.toLowerCase(),
         subject: subject,
-        body: emailBody,
-        
-        
+        body: fullText,
         raw_email: JSON.stringify({
           date: safeHeaders.date,
           from: fromHeader,
@@ -392,19 +400,17 @@ async disconnect() {
           'message-id': safeHeaders['message-id'],
           fullHeaders: safeHeaders,
         }),
-        
-        
         parsed_resume: {
-          text: emailBody,
-          has_attachments: false,
-          attachment_count: 0
+          text: fullText,
+          has_attachments: parsed.attachments && parsed.attachments.length > 0,
+          attachment_count: parsed.attachments ? parsed.attachments.length : 0
         },
         source: 'email',
         status: 'new',
         applied_at: appliedDate.toISOString(),
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
-        has_resume: false
+        has_resume: has_resume
       };
       
       console.log('Processed email data:', {
@@ -566,6 +572,18 @@ async disconnect() {
       throw error;
     }
   }
+
+  markAsRead(uid) {
+    return new Promise((resolve, reject) => {
+      this.imap.addFlags(uid, ['\\Seen'], (err) => {
+        if (err) {
+          console.error(`Error marking email ${uid} as read:`, err);
+          return reject(err);
+        }
+        resolve();
+      });
+    });
+  }
   
 }
 
