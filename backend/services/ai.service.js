@@ -34,7 +34,8 @@ class AIService {
       }
 
       
-      if (!parsedResult.score || !parsedResult.verdict) {
+      // Validate basic structure
+      if (typeof parsedResult.score !== 'number' || !parsedResult.verdict) {
         throw new Error("Invalid AI response format. Missing score or verdict.");
       }
 
