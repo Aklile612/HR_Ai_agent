@@ -21,19 +21,19 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:3000', 
-  'https://hr-ai-agent-delta.vercel.app', // Your Vercel deployment
+  'https://hr-ai-agent-delta.vercel.app',
   process.env.FRONTEND_URL 
-].filter(Boolean); // Remove empty values if env var is missing
+].filter(Boolean); 
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
+    
     if (!origin) return callback(null, true);
     
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      console.log('Blocked by CORS:', origin); // Log the blocked origin for debugging
+      console.log('Blocked by CORS:', origin); 
       callback(new Error('Not allowed by CORS'));
     }
   },
