@@ -27,7 +27,12 @@ class AIService {
         
         const jsonMatch = responseText.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
-          parsedResult = JSON.parse(jsonMatch[0]);
+          try {
+            parsedResult = JSON.parse(jsonMatch[0]);
+          } catch(e) {
+            console.error("Failed to parse extracted subset json: ", e);
+            throw new Error("AI response is not valid JSON: " + responseText.substring(0, 100));
+          }
         } else {
           throw new Error("AI response is not valid JSON: " + responseText.substring(0, 100));
         }
@@ -192,7 +197,8 @@ class AIService {
             aiResult.score,
             aiResult.matches,
             aiResult.verdict,
-            emailDraft
+            emailDraft,
+            aiResult.reasoning
           );
 
           if (updateError) {
