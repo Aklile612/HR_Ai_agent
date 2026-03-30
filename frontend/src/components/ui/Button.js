@@ -12,11 +12,11 @@ const Button = React.forwardRef(({
   ...props 
 }, ref) => {
   const variants = {
-    default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-    destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-    outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-    secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-    ghost: 'hover:bg-accent hover:text-accent-foreground',
+    default: 'bg-white text-black hover:bg-zinc-200 shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)]',
+    destructive: 'bg-rose-500/10 text-rose-500 hover:bg-rose-500/20 border border-rose-500/20',
+    outline: 'border border-white/[0.1] bg-transparent text-white hover:bg-white/[0.05]',
+    secondary: 'bg-white/[0.05] text-white hover:bg-white/[0.1]',
+    ghost: 'hover:bg-white/[0.05] text-zinc-400 hover:text-white',
     link: 'text-primary underline-offset-4 hover:underline',
   };
 
