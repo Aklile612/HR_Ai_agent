@@ -109,11 +109,11 @@ const Applicants = () => {
     return (
       <div className="space-y-6">
         <div className="animate-pulse">
-          <div className="h-8 bg-muted rounded w-1/4 mb-2"></div>
-          <div className="h-4 bg-muted rounded w-1/2 mb-8"></div>
+          <div className="h-8 bg-[#0a0a0a] border border-white/[0.05] rounded w-1/4 mb-2"></div>
+          <div className="h-4 bg-[#0a0a0a] border border-white/[0.05] rounded w-1/2 mb-8"></div>
           <div className="space-y-4">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-32 bg-muted rounded-lg"></div>
+              <div key={i} className="h-32 bg-[#0a0a0a] border border-white/[0.05] rounded-lg"></div>
             ))}
           </div>
         </div>
@@ -131,7 +131,7 @@ const Applicants = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Applicants</h1>
-          <p className="text-sm sm:text-base text-muted-foreground mt-1">
+          <p className="text-sm sm:text-base text-zinc-500 mt-1">
             Review and manage job applications with AI-powered insights.
           </p>
         </div>
@@ -154,9 +154,9 @@ const Applicants = () => {
       {applicants.length === 0 ? (
         <Card>
           <CardContent className="text-center py-12">
-            <UserIcon className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+            <UserIcon className="mx-auto h-12 w-12 text-zinc-500 mb-4" />
             <h3 className="text-lg font-medium mb-2">No applicants yet</h3>
-            <p className="text-muted-foreground">
+            <p className="text-zinc-500">
               Applications will appear here when candidates apply to your jobs.
             </p>
           </CardContent>
@@ -183,7 +183,7 @@ const Applicants = () => {
                             <h3 className="text-base sm:text-lg font-semibold truncate">
                               {applicant.name || 'Unknown Applicant'}
                             </h3>
-                            <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground mt-1">
+                            <div className="flex items-center gap-2 text-xs sm:text-sm text-zinc-500 mt-1">
                               <EnvelopeIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
                               <span className="truncate">{applicant.email || 'No email provided'}</span>
                             </div>
@@ -203,14 +203,14 @@ const Applicants = () => {
                       <div className="flex flex-col sm:grid sm:grid-cols-2 gap-3 sm:gap-4 mb-4">
                         {applicant.job_listings && (
                           <div className="flex items-center gap-2 text-xs sm:text-sm">
-                            <span className="text-muted-foreground">Position:</span>
+                            <span className="text-zinc-500">Position:</span>
                             <span className="font-medium truncate">{applicant.job_listings.title}</span>
                           </div>
                         )}
                         
                         <div className="flex items-center gap-2 text-xs sm:text-sm">
-                          <CalendarDaysIcon className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground flex-shrink-0" />
-                          <span className="text-muted-foreground">Applied:</span>
+                          <CalendarDaysIcon className="h-3 w-3 sm:h-4 sm:w-4 text-zinc-500 flex-shrink-0" />
+                          <span className="text-zinc-500">Applied:</span>
                           <span>{formatRelativeTime(applicant.applied_at || applicant.created_at)}</span>
                         </div>
                       </div>
@@ -225,7 +225,7 @@ const Applicants = () => {
                           >
                             Score: {applicant.ai_score}/100
                           </Badge>
-                          <div className="text-xs sm:text-sm text-muted-foreground">
+                          <div className="text-xs sm:text-sm text-zinc-500">
                             AI Analysis Complete
                           </div>
                         </div>
@@ -262,7 +262,7 @@ const Applicants = () => {
                                 </Badge>
                               ))}
                               {matches.length > 3 && (
-                                <span className="text-xs text-muted-foreground self-center">
+                                <span className="text-xs text-zinc-500 self-center">
                                   +{matches.length - 3} more
                                 </span>
                               )}
@@ -330,25 +330,25 @@ const Applicants = () => {
       {/* Email Body Modal */}
       {selectedApplicant && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
           onClick={() => setSelectedApplicant(null)}
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] flex flex-col"
+            className="bg-[#0a0a0a] border border-white/[0.05] rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b dark:border-gray-700">
+            <div className="flex items-center justify-between p-6 border-b border-white/[0.05]">
               <div>
-                <h2 className="text-2xl font-bold text-foreground">Application Email</h2>
-                <p className="text-sm text-muted-foreground mt-1">
+                <h2 className="text-2xl font-bold text-zinc-300">Application Email</h2>
+                <p className="text-sm text-zinc-500 mt-1">
                   From: {selectedApplicant.name} ({selectedApplicant.email})
                 </p>
                 {selectedApplicant.subject && (
-                  <p className="text-sm font-medium mt-1 text-foreground">Subject: {selectedApplicant.subject}</p>
+                  <p className="text-sm font-medium mt-1 text-zinc-300">Subject: {selectedApplicant.subject}</p>
                 )}
               </div>
               <Button
@@ -368,7 +368,7 @@ const Applicants = () => {
                   // Parse MIME email body and extract readable content
                   const parseEmailBody = (body) => {
                     if (!body) return (
-                      <div className="text-foreground">No email body available</div>
+                      <div className="text-zinc-300">No email body available</div>
                     );
                     
                     // If body is an object (JSONB), convert to string first
@@ -430,7 +430,7 @@ const Applicants = () => {
                         const plainText = htmlContent.replace(/<[^>]+>/g, '');
                         
                         return (
-                          <div className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+                          <div className="whitespace-pre-wrap text-sm leading-relaxed text-zinc-300">
                             {plainText}
                           </div>
                         );
@@ -438,7 +438,7 @@ const Applicants = () => {
                       
                       if (textContent) {
                         return (
-                          <div className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+                          <div className="whitespace-pre-wrap text-sm leading-relaxed text-zinc-300">
                             {textContent}
                           </div>
                         );
@@ -479,7 +479,7 @@ const Applicants = () => {
                         htmlContent = htmlContent.replace(/<br\s*\/?>/gi, '\n');
                         const plainText = htmlContent.replace(/<[^>]+>/g, '');
                         return (
-                          <div className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+                          <div className="whitespace-pre-wrap text-sm leading-relaxed text-zinc-300">
                             {plainText}
                           </div>
                         );
@@ -487,7 +487,7 @@ const Applicants = () => {
                       
                       if (textContent) {
                         return (
-                          <div className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+                          <div className="whitespace-pre-wrap text-sm leading-relaxed text-zinc-300">
                             {textContent}
                           </div>
                         );
@@ -497,7 +497,7 @@ const Applicants = () => {
                     // If not MIME format, try to parse as JSON
                     if (typeof body === 'object' && body !== null) {
                       return (
-                        <div className="whitespace-pre-wrap text-sm leading-relaxed font-mono text-foreground">
+                        <div className="whitespace-pre-wrap text-sm leading-relaxed font-mono text-zinc-300">
                           {JSON.stringify(body, null, 2)}
                         </div>
                       );
@@ -508,14 +508,14 @@ const Applicants = () => {
                       try {
                         const parsed = JSON.parse(body);
                         return (
-                          <div className="whitespace-pre-wrap text-sm leading-relaxed font-mono text-foreground">
+                          <div className="whitespace-pre-wrap text-sm leading-relaxed font-mono text-zinc-300">
                             {JSON.stringify(parsed, null, 2)}
                           </div>
                         );
                       } catch (e) {
                         // Not JSON, return as plain text
                         return (
-                          <div className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+                          <div className="whitespace-pre-wrap text-sm leading-relaxed text-zinc-300">
                             {body}
                           </div>
                         );
@@ -524,7 +524,7 @@ const Applicants = () => {
                     
                     // Fallback
                     return (
-                      <div className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+                      <div className="whitespace-pre-wrap text-sm leading-relaxed text-zinc-300">
                         {String(body)}
                       </div>
                     );
@@ -536,7 +536,7 @@ const Applicants = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="flex items-center justify-end gap-2 p-6 border-t dark:border-gray-700">
+            <div className="flex items-center justify-end gap-2 p-6 border-t border-white/[0.05]">
               <Button
                 variant="outline"
                 onClick={() => setSelectedApplicant(null)}
@@ -551,18 +551,18 @@ const Applicants = () => {
       {/* Email Confirmation Modal */}
       {showEmailConfirm && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
           onClick={handleCancelSendEmail}
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6"
+            className="bg-[#0a0a0a] border border-white/[0.05] rounded-lg shadow-xl max-w-md w-full p-6"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-lg font-semibold mb-2 text-foreground">Confirm Send Email</h3>
-            <p className="text-sm text-muted-foreground mb-6">
+            <h3 className="text-lg font-semibold mb-2 text-zinc-300">Confirm Send Email</h3>
+            <p className="text-sm text-zinc-500 mb-6">
               Are you sure you want to send an email to this applicant?
             </p>
             <div className="flex items-center justify-end gap-3">
