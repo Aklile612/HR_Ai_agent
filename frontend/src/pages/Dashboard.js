@@ -80,12 +80,12 @@ const Dashboard = () => {
       <CardContent className="p-4 sm:p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2 sm:space-x-3 flex-1 min-w-0">
-            <div className={`p-2 rounded-lg ${color} bg-opacity-10 flex-shrink-0`}>
-              <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${color}`} />
+            <div className={`p-2 rounded-lg ${color.replace('text-', 'bg-').replace('600', '500/10')} flex-shrink-0 border border-white/[0.05]`}>
+              <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${color.replace('600', '400')}`} />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-xs sm:text-sm font-medium text-muted-foreground truncate">{title}</p>
-              <p className="text-xl sm:text-2xl font-bold">{value}</p>
+              <p className="text-xs sm:text-sm font-medium text-zinc-500 truncate">{title}</p>
+              <p className="text-xl sm:text-2xl font-bold text-white mt-1">{value}</p>
             </div>
           </div>
           {/* {trend && (
@@ -103,7 +103,7 @@ const Dashboard = () => {
           )} */}
         </div>
         {description && (
-          <p className="text-xs sm:text-sm text-muted-foreground mt-2">{description}</p>
+          <p className="text-xs sm:text-sm text-zinc-500 font-light mt-3">{description}</p>
         )}
       </CardContent>
     </Card>
@@ -128,16 +128,16 @@ const Dashboard = () => {
     return (
       <div className="space-y-6">
         <div className="animate-pulse">
-          <div className="h-8 bg-muted rounded w-1/4 mb-2"></div>
-          <div className="h-4 bg-muted rounded w-1/2 mb-8"></div>
+          <div className="h-8 bg-zinc-800/50 rounded-lg w-1/4 mb-2"></div>
+          <div className="h-4 bg-zinc-800/50 rounded-lg w-1/2 mb-8"></div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-32 bg-muted rounded-lg"></div>
+              <div key={i} className="h-32 bg-zinc-800/30 rounded-2xl border border-white/[0.05]"></div>
             ))}
           </div>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <div className="h-80 bg-muted rounded-lg"></div>
-            <div className="h-80 bg-muted rounded-lg"></div>
+            <div className="h-80 bg-zinc-800/30 rounded-2xl border border-white/[0.05]"></div>
+            <div className="h-80 bg-zinc-800/30 rounded-2xl border border-white/[0.05]"></div>
           </div>
         </div>
       </div>
@@ -153,14 +153,13 @@ const Dashboard = () => {
     >
       {/* Header */}
       <motion.div variants={itemVariants}>
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-white/[0.05] pb-6">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Dashboard</h1>
-            <p className="text-sm sm:text-base text-muted-foreground mt-1">
-              Welcome back! Here's what's happening with your HR operations.
+            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white">Dashboard</h1>
+            <p className="text-sm sm:text-base text-zinc-500 font-light mt-2">
+              Welcome to your workspace. Here's what's happening with your HR operations.
             </p>
           </div>
-          
         </div>
       </motion.div>
 
@@ -230,21 +229,21 @@ const Dashboard = () => {
                 recentJobs.map((job, index) => (
                   <motion.div 
                     key={job.id} 
-                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 sm:p-4 rounded-lg border bg-muted/50 hover:bg-muted transition-colors"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 sm:p-4 rounded-xl border border-white/[0.05] bg-white/[0.02] hover:bg-white/[0.04] transition-colors"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-sm sm:text-base truncate">{job.title}</h4>
-                      <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-                        {job.department && <span className="truncate">{job.department} • </span>}
-                        <span>Created {formatRelativeTime(job.created_at)}</span>
+                      <h4 className="font-medium text-sm sm:text-base text-zinc-200 truncate">{job.title}</h4>
+                      <p className="text-xs sm:text-sm text-zinc-500 font-light mt-1">
+                        {job.department && <span className="truncate text-zinc-400">{job.department} • </span>}
+                        <span>{formatRelativeTime(job.created_at)}</span>
                       </p>
                     </div>
-                    <div className="flex items-center justify-between sm:justify-end gap-2">
-                      <Badge variant="secondary" className="text-xs">Active</Badge>
-                      <Button variant="ghost" size="sm" asChild className="flex-shrink-0">
+                    <div className="flex items-center justify-between sm:justify-end gap-3">
+                      <Badge variant="secondary" className="text-[10px] tracking-wider uppercase">Active</Badge>
+                      <Button variant="ghost" size="sm" asChild className="flex-shrink-0 h-8 w-8 p-0">
                         <Link to={`/jobs`}>
                           <EyeIcon className="h-4 w-4" />
                         </Link>
@@ -284,31 +283,31 @@ const Dashboard = () => {
                 recentApplicants.map((applicant, index) => (
                   <motion.div 
                     key={applicant.id} 
-                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 sm:p-4 rounded-lg border bg-muted/50 hover:bg-muted transition-colors"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 sm:p-4 rounded-xl border border-white/[0.05] bg-white/[0.02] hover:bg-white/[0.04] transition-colors"
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
                     <div className="flex-1 min-w-0">
-                      <h4 className="font-medium text-sm sm:text-base truncate">{applicant.name || 'Unknown Applicant'}</h4>
-                      <p className="text-xs sm:text-sm text-muted-foreground truncate mt-1">{applicant.email}</p>
-                      <p className="text-xs text-muted-foreground mt-1">
+                      <h4 className="font-medium text-sm sm:text-base text-zinc-200 truncate">{applicant.name || 'Unknown Applicant'}</h4>
+                      <p className="text-xs sm:text-sm text-zinc-500 font-light truncate mt-1">{applicant.email}</p>
+                      <p className="text-xs text-zinc-600 font-light mt-1">
                         Applied {formatRelativeTime(applicant.applied_at || applicant.created_at)}
                       </p>
                     </div>
-                    <div className="flex items-center justify-between sm:justify-end sm:flex-col sm:items-end gap-2 sm:gap-1">
+                    <div className="flex items-center justify-between sm:justify-end sm:flex-col sm:items-end gap-2 sm:gap-2">
                       {applicant.ai_verdict && (
                         <Badge 
                           variant={applicant.ai_verdict === 'shortlist' ? 'success' : 
                                   applicant.ai_verdict === 'reject' ? 'destructive' : 'warning'}
-                          className="text-xs"
+                          className="text-[10px] tracking-wider uppercase"
                         >
                           {applicant.ai_verdict}
                         </Badge>
                       )}
                       {applicant.ai_score && (
-                        <p className="text-xs text-muted-foreground">
-                          Score: {applicant.ai_score}/100
+                        <p className="text-xs text-zinc-400 font-medium">
+                          Score: <span className="text-white">{applicant.ai_score}/100</span>
                         </p>
                       )}
                     </div>
