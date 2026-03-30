@@ -62,7 +62,7 @@ const CreateJob = () => {
 
   return (
     <div>
-      <div className="mb-8">
+      <div className="mb-8 border-b border-white/[0.05] pb-6">
         <Button
           variant="ghost"
           onClick={() => navigate('/jobs')}
@@ -71,9 +71,9 @@ const CreateJob = () => {
           <ArrowLeftIcon className="mr-2 h-4 w-4" />
           Back to Jobs
         </Button>
-        <h1 className="text-3xl font-bold tracking-tight">Create New Job</h1>
-        <p className="text-muted-foreground mt-2">
-          Fill out the form below to create a new job listing.
+        <h1 className="text-3xl font-semibold tracking-tight text-white">Create New Job</h1>
+        <p className="text-zinc-500 font-light mt-2">
+          Submit new role requirements to spin up an AI screening pipeline.
         </p>
       </div>
 
@@ -88,7 +88,7 @@ const CreateJob = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="title" className="block text-sm font-medium mb-2">
+                <label htmlFor="title" className="block text-sm font-medium text-zinc-400 mb-2">
                   Job Title *
                 </label>
                 <Input
@@ -101,14 +101,10 @@ const CreateJob = () => {
                   placeholder="e.g. Senior Software Engineer"
                 />
               </div>
-              
-              
             </div>
-            
-            
 
             <div>
-              <label htmlFor="description" className="block text-sm font-medium mb-2">
+              <label htmlFor="description" className="block text-sm font-medium text-zinc-400 mb-2">
                 Job Description *
               </label>
               <textarea
@@ -118,13 +114,13 @@ const CreateJob = () => {
                 required
                 value={formData.description}
                 onChange={handleChange}
-                className="input min-h-[150px] resize-y"
+                className="flex w-full rounded-md border border-white/[0.08] bg-[#050505] px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:border-white/[0.2] focus-visible:ring-1 focus-visible:ring-white/[0.05] disabled:cursor-not-allowed disabled:opacity-50 transition-colors min-h-[150px] resize-y placeholder:text-zinc-500"
                 placeholder="Describe the role, responsibilities, and what you're looking for..."
               />
             </div>
 
             <div>
-              <label htmlFor="requirements" className="block text-sm font-medium mb-2">
+              <label htmlFor="requirements" className="block text-sm font-medium text-zinc-400 mb-2">
                 Requirements
               </label>
               <textarea
@@ -133,7 +129,7 @@ const CreateJob = () => {
                 rows={4}
                 value={formData.requirements}
                 onChange={handleChange}
-                className="input min-h-[100px] resize-y"
+                className="flex w-full rounded-md border border-white/[0.08] bg-[#050505] px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:border-white/[0.2] focus-visible:ring-1 focus-visible:ring-white/[0.05] disabled:cursor-not-allowed disabled:opacity-50 transition-colors min-h-[100px] resize-y placeholder:text-zinc-500"
                 placeholder="List the required skills, experience, and qualifications..."
               />
             </div>
