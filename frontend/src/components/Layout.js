@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -7,8 +7,6 @@ import {
   UserGroupIcon,
   PlusIcon,
   Bars3Icon,
-  SunIcon,
-  MoonIcon,
   ArrowRightOnRectangleIcon,
   CalendarDaysIcon
 } from '@heroicons/react/24/outline';
@@ -20,24 +18,6 @@ const Layout = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
-
-  // Initialize dark mode from localStorage
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const shouldUseDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
-    
-    setDarkMode(shouldUseDark);
-    document.documentElement.classList.toggle('dark', shouldUseDark);
-  }, []);
-
-  const toggleDarkMode = () => {
-    const newDarkMode = !darkMode;
-    setDarkMode(newDarkMode);
-    localStorage.setItem('theme', newDarkMode ? 'dark' : 'light');
-    document.documentElement.classList.toggle('dark', newDarkMode);
-  };
 
   const handleLogout = () => {
     authService.logout();
@@ -58,7 +38,7 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
+    <div className="min-h-screen bg-[#050505] text-zinc-300 font-sans selection:bg-zinc-800 selection:text-white transition-colors duration-300">
       {/* Mobile sidebar overlay */}
       <AnimatePresence>
         {sidebarOpen && (
@@ -69,7 +49,7 @@ const Layout = ({ children }) => {
             className="fixed inset-0 z-50 lg:hidden"
           >
             <div 
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm" 
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm" 
               onClick={() => setSidebarOpen(false)} 
             />
             <motion.div
@@ -77,14 +57,12 @@ const Layout = ({ children }) => {
               initial="closed"
               animate="open"
               exit="closed"
-              className="fixed inset-y-0 left-0 flex w-72 flex-col bg-card border-r shadow-xl"
+              className="fixed inset-y-0 left-0 flex w-72 flex-col bg-[#0a0a0a] border-r border-white/[0.08] shadow-2xl"
             >
               <SidebarContent 
                 navigation={navigation} 
                 location={location} 
                 onItemClick={() => setSidebarOpen(false)}
-                darkMode={darkMode}
-                toggleDarkMode={toggleDarkMode}
               />
             </motion.div>
           </motion.div>
@@ -93,25 +71,23 @@ const Layout = ({ children }) => {
 
       {/* Desktop sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-72 lg:flex-col">
-        <div className="flex flex-col flex-grow bg-card border-r shadow-sm">
+        <div className="flex flex-col flex-grow bg-[#0a0a0a] border-r border-white/[0.05] shadow-[4px_0_24px_rgba(0,0,0,0.2)]">
           <SidebarContent 
             navigation={navigation} 
             location={location}
-            darkMode={darkMode}
-            toggleDarkMode={toggleDarkMode}
           />
         </div>
       </div>
 
       {/* Main content */}
-      <div className="lg:pl-72 flex flex-col flex-1">
+      <div className="lg:pl-72 flex flex-col flex-1 min-h-screen">
         {/* Top bar */}
-        <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 lg:px-6">
+        <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b border-white/[0.05] bg-[#050505]/80 backdrop-blur-xl px-4 lg:px-8">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden"
+            className="lg:hidden text-zinc-400 hover:text-white hover:bg-white/[0.05]"
           >
             <Bars3Icon className="h-5 w-5" />
           </Button>
@@ -124,20 +100,22 @@ const Layout = ({ children }) => {
               variant="ghost" 
               size="sm"
               onClick={handleLogout}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 text-zinc-400 hover:text-white hover:bg-rose-500/10 hover:border-rose-500/20 transition-all rounded-full px-4"
             >
-              <ArrowRightOnRectangleIcon className="h-5 w-5" />
-              <span className="hidden sm:inline">Log Out</span>
+              <ArrowRightOnRectangleIcon className="h-4 w-4" />
+              <span className="hidden sm:inline text-sm font-medium">Log Out</span>
             </Button>
           </div>
         </header>
 
         {/* Page content */}
-        <main className="flex-1 p-4 lg:p-6">
+        <main className="flex-1 p-4 lg:p-8 relative">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff02_1px,transparent_1px),linear-gradient(to_bottom,#ffffff02_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.4 }}
+            className="relative z-10 max-w-7xl mx-auto"
           >
             {children}
           </motion.div>
@@ -148,25 +126,24 @@ const Layout = ({ children }) => {
 };
 
 // Sidebar content component
-const SidebarContent = ({ navigation, location, onItemClick, darkMode, toggleDarkMode }) => {
+const SidebarContent = ({ navigation, location, onItemClick }) => {
   return (
     <>
       {/* Logo */}
-      <div className="flex h-16 items-center px-6 border-b">
+      <div className="flex h-16 items-center px-6 border-b border-white/[0.05]">
         <div className="flex items-center gap-3">
-          <Link to={"/"} className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <BriefcaseIcon className="h-5 w-5 text-white" />
+          <Link to={"/"} className="w-8 h-8 bg-white/[0.03] border border-white/[0.08] rounded-lg flex items-center justify-center">
+            <BriefcaseIcon className="h-4 w-4 text-white" />
           </Link>
           <div>
-            <h1 className="text-lg font-bold gradient-text">HR Ai-Agent</h1>
-            <p className="text-xs text-muted-foreground">Hiring Management</p>
+            <h1 className="text-sm font-semibold text-white tracking-tight">HR Assistant</h1>
+            <p className="text-[10px] text-zinc-500 uppercase tracking-widest mt-0.5">Workspace</p>
           </div>
         </div>
       </div>
 
-
       {/* Navigation */}
-      <nav className="flex-1 px-4 py-6 space-y-2">
+      <nav className="flex-1 px-3 py-6 space-y-1.5">
         {navigation.map((item) => {
           const isActive = location.pathname === item.href;
           return (
@@ -176,18 +153,18 @@ const SidebarContent = ({ navigation, location, onItemClick, darkMode, toggleDar
               onClick={onItemClick}
               className={`group flex items-center justify-between px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
                 isActive
-                  ? 'bg-primary text-primary-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+                  ? 'bg-white/[0.05] text-white'
+                  : 'text-zinc-500 hover:text-zinc-300 hover:bg-white/[0.02]'
               }`}
             >
               <div className="flex items-center gap-3">
-                <item.icon className={`h-5 w-5 transition-colors ${
-                  isActive ? 'text-primary-foreground' : 'text-muted-foreground group-hover:text-foreground'
+                <item.icon className={`h-4 w-4 transition-colors ${
+                  isActive ? 'text-white' : 'text-zinc-500 group-hover:text-zinc-300'
                 }`} />
                 <span>{item.name}</span>
               </div>
               {item.badge && (
-                <Badge variant={isActive ? 'secondary' : 'default'} className="h-5 px-2 text-xs">
+                <Badge variant={isActive ? 'secondary' : 'default'} className="h-5 px-2 text-xs bg-white/[0.05] text-zinc-300 border-0">
                   {item.badge}
                 </Badge>
               )}
@@ -197,26 +174,15 @@ const SidebarContent = ({ navigation, location, onItemClick, darkMode, toggleDar
       </nav>
 
       {/* Bottom section */}
-      <div className="p-4 border-t space-y-2">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={toggleDarkMode}
-          className="w-full justify-start gap-3"
-        >
-          {darkMode ? <SunIcon className="h-4 w-4" /> : <MoonIcon className="h-4 w-4" />}
-          {darkMode ? 'Light Mode' : 'Dark Mode'}
-        </Button>
-        
+      <div className="p-4 border-t border-white/[0.05] space-y-2">        
         <Link to={"/auth"} className="flex items-center gap-2 w-full">
             <Button 
               variant="ghost" 
               size="sm"
-            
-              className="flex justify-start gap-2 w-full"
+              className="flex justify-start gap-3 w-full text-zinc-500 hover:text-white hover:bg-white/[0.05] rounded-lg"
             >
-              <ArrowRightOnRectangleIcon className="h-5 w-5" />
-              <span className="">Log Out</span>
+              <ArrowRightOnRectangleIcon className="h-4 w-4" />
+              <span className="text-sm font-medium">Log out securely</span>
             </Button>
           </Link>
       </div>
