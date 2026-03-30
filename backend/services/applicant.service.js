@@ -1,16 +1,18 @@
 const {supabase} = require("../config/supabase.config");
 
 class ApplicantService {
-  static async updateAIResult(id, score, matches, verdict, emailText) {
+  static async updateAIResult(id, score, matches, verdict, emailText, reasoning = null) {
+    const updateData = {
+      ai_score: score,
+      ai_matches: matches,
+      ai_verdict: verdict,
+      ai_generated_email: emailText,
+      updated_at: new Date(),
+    };
+
     return await supabase
       .from("applicants")
-      .update({
-        ai_score: score,
-        ai_matches: matches,
-        ai_verdict: verdict,
-        ai_generated_email: emailText,
-        updated_at: new Date(),
-      })
+      .update(updateData)
       .eq("id", id);
   }
 
