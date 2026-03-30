@@ -170,11 +170,11 @@ const Jobs = () => {
     return (
       <div className="space-y-6">
         <div className="animate-pulse">
-          <div className="h-8 bg-muted rounded w-1/4 mb-2"></div>
-          <div className="h-4 bg-muted rounded w-1/2 mb-8"></div>
+          <div className="h-8 bg-[#0a0a0a] border border-white/[0.05] rounded w-1/4 mb-2"></div>
+          <div className="h-4 bg-[#0a0a0a] border border-white/[0.05] rounded w-1/2 mb-8"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="h-64 bg-muted rounded-lg"></div>
+              <div key={i} className="h-64 bg-[#0a0a0a] border border-white/[0.05] rounded-lg"></div>
             ))}
           </div>
         </div>
@@ -294,7 +294,7 @@ const Jobs = () => {
                     <select
                       value={selectedDepartment}
                       onChange={(e) => setSelectedDepartment(e.target.value)}
-                      className="input w-full"
+                      className="flex w-full rounded-md border border-white/\[0.08\] bg-[#050505] px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:border-white/\[0.2\] focus-visible:ring-1 focus-visible:ring-white/\[0.2\] disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <option value="all">All Departments</option>
                       {departments.map(dept => (
@@ -311,7 +311,7 @@ const Jobs = () => {
                     <select
                       value={selectedStatus}
                       onChange={(e) => setSelectedStatus(e.target.value)}
-                      className="input w-full"
+                      className="flex w-full rounded-md border border-white/\[0.08\] bg-[#050505] px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:border-white/\[0.2\] focus-visible:ring-1 focus-visible:ring-white/\[0.2\] disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <option value="all">All Status</option>
                       {statuses.map(status => (
@@ -324,7 +324,7 @@ const Jobs = () => {
                 </div>
                 
                 {/* Filter Actions */}
-                <div className="flex justify-between items-center pt-4 border-t">
+                <div className="flex justify-between items-center pt-4 border-t border-white/[0.05]">
                   <div className="text-sm text-muted-foreground">
                     Showing {filteredJobs.length} of {jobs.length} jobs
                   </div>
@@ -477,18 +477,18 @@ const Jobs = () => {
       {/* Edit Job Modal */}
       {editingJob && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
           onClick={handleEditCancel}
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] flex flex-col"
+            className="bg-[#0a0a0a] border border-white/[0.05] rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b">
+            <div className="flex items-center justify-between p-6 border-b border-white/[0.05]">
               <h2 className="text-2xl font-bold">Edit Job</h2>
               <Button
                 variant="ghost"
@@ -527,7 +527,7 @@ const Jobs = () => {
                     required
                     value={editFormData.description}
                     onChange={(e) => setEditFormData({ ...editFormData, description: e.target.value })}
-                    className="input min-h-[150px] resize-y"
+                    className="flex w-full rounded-md border border-white/\[0.08\] bg-[#050505] px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:border-white/\[0.2\] focus-visible:ring-1 focus-visible:ring-white/\[0.2\] disabled:cursor-not-allowed disabled:opacity-50 min-h-[150px] resize-y"
                     placeholder="Describe the role, responsibilities, and what you're looking for..."
                   />
                 </div>
@@ -541,12 +541,12 @@ const Jobs = () => {
                     rows={4}
                     value={editFormData.requirements}
                     onChange={(e) => setEditFormData({ ...editFormData, requirements: e.target.value })}
-                    className="input min-h-[100px] resize-y"
+                    className="flex w-full rounded-md border border-white/\[0.08\] bg-[#050505] px-3 py-2 text-sm text-white focus-visible:outline-none focus-visible:border-white/\[0.2\] focus-visible:ring-1 focus-visible:ring-white/\[0.2\] disabled:cursor-not-allowed disabled:opacity-50 min-h-[100px] resize-y"
                     placeholder="List the required skills, experience, and qualifications..."
                   />
                 </div>
 
-                <div className="flex justify-end space-x-3 pt-6 border-t">
+                <div className="flex justify-end space-x-3 pt-6 border-t border-white/[0.05]">
                   <Button
                     type="button"
                     variant="outline"
@@ -571,18 +571,18 @@ const Jobs = () => {
       {/* Job Details Modal */}
       {selectedJob && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
           onClick={() => setSelectedJob(null)}
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] flex flex-col"
+            className="bg-[#0a0a0a] border border-white/[0.05] rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b">
+            <div className="flex items-center justify-between p-6 border-b border-white/[0.05]">
               <div className="flex-1">
                 <h2 className="text-2xl font-bold">{selectedJob.title}</h2>
                 <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
@@ -638,7 +638,7 @@ const Jobs = () => {
                 )}
 
                 {/* Job Info */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-white/[0.05]">
                   <div className="flex items-center gap-2 text-sm">
                     <CalendarDaysIcon className="h-4 w-4 text-muted-foreground" />
                     <span className="text-muted-foreground">Created:</span>
@@ -657,7 +657,7 @@ const Jobs = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="flex items-center justify-end gap-2 p-6 border-t">
+            <div className="flex items-center justify-end gap-2 p-6 border-t border-white/[0.05]">
               <Button
                 variant="outline"
                 onClick={() => setSelectedJob(null)}
@@ -672,14 +672,14 @@ const Jobs = () => {
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
           onClick={handleCancelDelete}
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6"
+            className="bg-[#0a0a0a] border border-white/[0.05] rounded-lg shadow-xl max-w-md w-full p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <h3 className="text-lg font-semibold mb-2 text-foreground">Confirm Delete Job</h3>
