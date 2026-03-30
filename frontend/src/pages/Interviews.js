@@ -170,11 +170,11 @@ const Interviews = () => {
     return (
       <div className="space-y-6">
         <div className="animate-pulse">
-          <div className="h-8 bg-muted rounded w-1/4 mb-2"></div>
-          <div className="h-4 bg-muted rounded w-1/2 mb-8"></div>
+          <div className="h-8 bg-[#0a0a0a] border border-white/[0.05] rounded w-1/4 mb-2"></div>
+          <div className="h-4 bg-[#0a0a0a] border border-white/[0.05] rounded w-1/2 mb-8"></div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-64 bg-muted rounded-lg"></div>
+              <div key={i} className="h-64 bg-[#0a0a0a] border border-white/[0.05] rounded-lg"></div>
             ))}
           </div>
         </div>
@@ -192,7 +192,7 @@ const Interviews = () => {
       >
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Set Your Availability</h1>
-          <p className="text-sm sm:text-base text-muted-foreground mt-1">
+          <p className="text-sm sm:text-base text-zinc-500 mt-1">
             Set your available days and time ranges for interviews
           </p>
         </div>
@@ -211,7 +211,7 @@ const Interviews = () => {
                 <select
                   value={formData.day_of_week}
                   onChange={(e) => setFormData({ ...formData, day_of_week: parseInt(e.target.value) })}
-                  className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm"
+                  className="w-full h-10 px-3 flex rounded-md border border-white/[0.08] bg-[#050505] text-sm text-zinc-300 focus-visible:outline-none focus-visible:border-white/[0.2]"
                 >
                   {DAYS.map(day => (
                     <option key={day.value} value={day.value}>{day.label}</option>
@@ -252,7 +252,7 @@ const Interviews = () => {
                   {availability.map((slot, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between p-3 rounded-lg border bg-muted/50"
+                      className="flex items-center justify-between p-3 rounded-lg border bg-[#0a0a0a] border border-white/[0.05]/50"
                     >
                       <div className="flex items-center gap-4">
                         <Badge variant="secondary">{getDayName(slot.day_of_week)}</Badge>
@@ -299,7 +299,7 @@ const Interviews = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Interviews</h1>
-          <p className="text-sm sm:text-base text-muted-foreground mt-1">
+          <p className="text-sm sm:text-base text-zinc-500 mt-1">
             Manage your scheduled interviews
           </p>
         </div>
@@ -356,7 +356,7 @@ const Interviews = () => {
                     <select
                       value={formData.day_of_week}
                       onChange={(e) => setFormData({ ...formData, day_of_week: parseInt(e.target.value) })}
-                      className="w-full h-10 px-3 rounded-md border border-input bg-background text-sm"
+                      className="w-full h-10 px-3 flex rounded-md border border-white/[0.08] bg-[#050505] text-sm text-zinc-300 focus-visible:outline-none focus-visible:border-white/[0.2]"
                     >
                       {DAYS.map(day => (
                         <option key={day.value} value={day.value}>{day.label}</option>
@@ -396,7 +396,7 @@ const Interviews = () => {
                     {availability.map((slot, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between p-3 rounded-lg border bg-muted/50"
+                        className="flex items-center justify-between p-3 rounded-lg border bg-[#0a0a0a] border border-white/[0.05]/50"
                       >
                         <div className="flex items-center gap-4">
                           <Badge variant="secondary">{getDayName(slot.day_of_week)}</Badge>
@@ -435,9 +435,9 @@ const Interviews = () => {
       {interviews.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center">
-            <CalendarDaysIcon className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+            <CalendarDaysIcon className="h-12 w-12 text-zinc-500 mx-auto mb-4" />
             <h3 className="text-lg font-semibold mb-2">No Interviews Scheduled</h3>
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-sm text-zinc-500 mb-4">
               Interviews will appear here once they are scheduled.
             </p>
           </CardContent>
@@ -473,19 +473,19 @@ const Interviews = () => {
                   <CardContent className="flex-1 flex flex-col space-y-4">
                     <div className="space-y-2 text-sm">
                       <div className="flex items-start gap-2">
-                        <CalendarDaysIcon className="h-4 w-4 mt-0.5 text-muted-foreground flex-shrink-0" />
+                        <CalendarDaysIcon className="h-4 w-4 mt-0.5 text-zinc-500 flex-shrink-0" />
                         <div>
                           <p className="font-medium">{formatInterviewDate(interview.scheduled_at)}</p>
-                          <p className="text-muted-foreground">{formatInterviewTime(interview.scheduled_at)}</p>
+                          <p className="text-zinc-500">{formatInterviewTime(interview.scheduled_at)}</p>
                         </div>
                       </div>
                       <div className="flex items-start gap-2">
-                        <MapPinIcon className="h-4 w-4 mt-0.5 text-muted-foreground flex-shrink-0" />
-                        <p className="text-muted-foreground">Office Location</p>
+                        <MapPinIcon className="h-4 w-4 mt-0.5 text-zinc-500 flex-shrink-0" />
+                        <p className="text-zinc-500">Office Location</p>
                       </div>
                     </div>
                     
-                    <div className="flex gap-2 pt-2 border-t">
+                    <div className="flex gap-2 pt-2 border-t border-white/[0.05]">
                       <Button
                         variant="outline"
                         size="sm"
@@ -518,13 +518,13 @@ const Interviews = () => {
               {availability.map((slot, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-3 rounded-lg border bg-muted/50"
+                  className="flex items-center justify-between p-3 rounded-lg border bg-[#0a0a0a] border border-white/[0.05]/50"
                 >
                   <div className="flex items-center gap-3">
                     <CheckCircleIcon className="h-5 w-5 text-green-600 flex-shrink-0" />
                     <div>
                       <p className="text-sm font-medium">{getDayName(slot.day_of_week)}</p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-zinc-500">
                         {slot.start_time} - {slot.end_time}
                       </p>
                     </div>
