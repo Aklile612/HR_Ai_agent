@@ -51,6 +51,9 @@ class HRService {
         .single();
 
       if (error) {
+        if (error.message && error.message.includes('fetch failed')) {
+           throw new Error('Network error: Cannot connect to the database right now. Please check your internet connection.');
+        }
         
         if (error.code === '23505' || error.message.includes('duplicate')) {
           throw new Error('Email already exists. Please use a different email address.');
@@ -82,6 +85,16 @@ class HRService {
         .select('id, name, email, password, api_key, created_at')
         .eq('email', email.trim().toLowerCase())
         .single();
+
+      if (error) {
+         if (error.message && error.message.includes('fetch failed')) {
+           throw new Error('Network error: Cannot connect to the database right now. Please check your internet connection.');
+         }
+         // PGRST116 is code for 0 rows returned from single()
+         if (error.code !== 'PGRST116') {
+           console.error("Supabase login error:", error);
+         }
+      }
 
       if (error || !hrUser) {
         throw new Error('Invalid email or password');
