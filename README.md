@@ -84,10 +84,4 @@ HR Assistant is a modern, AI-enhanced recruitment platform designed to streamlin
     ```
     The application will open at `http://localhost:3000`.
 
-## License
-[MIT](LICENSE)
-# HR_Ai-agent
-# HR_Ai-agent
-# HR_Ai-agent
-# HR_Ai_Agent
-# HR_Ai_agent
+
