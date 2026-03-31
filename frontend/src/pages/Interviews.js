@@ -7,13 +7,14 @@ import {
   PlusIcon,
   TrashIcon,
   CheckCircleIcon,
-  MapPinIcon
+  MapPinIcon,
+  SparklesIcon
 } from '@heroicons/react/24/outline';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Badge } from '../components/ui/Badge';
 import { Input } from '../components/ui/Input';
-import { interviewsAPI } from '../services/api';
+import { interviewsAPI, applicantsAPI } from '../services/api';
 import toast from 'react-hot-toast';
 
 const DAYS = [
@@ -34,6 +35,39 @@ const Interviews = () => {
   const [sendingEmail, setSendingEmail] = useState(null);
   const [sendingEmailToAll, setSendingEmailToAll] = useState(false);
   const [showEditAvailability, setShowEditAvailability] = useState(false);
+    const [generatingInterviews, setGeneratingInterviews] = useState(false);
+
+  const handleGenerateInterviews = async () => {
+    try {
+      setGeneratingInterviews(true);
+      
+      const response = await applicantsAPI.getAll();
+      const allApplicants = response.data.data || [];
+      
+      const shortlisted = allApplicants.filter(a => a.ai_verdict === 'shortlist');
+      
+      const scheduledApplicantIds = new Set(interviews.map(i => i.applicant_id));
+      const needsInterviews = shortlisted.filter(a => !scheduledApplicantIds.has(a.id));
+      
+      if (needsInterviews.length === 0) {
+        toast.info('No pending shortlisted applicants to schedule.');
+        return;
+      }
+      
+      const applicantIds = needsInterviews.map(a => a.id);
+      
+      await interviewsAPI.generate(applicantIds);
+      toast.success(`Successfully scheduled ${applicantIds.length} interviews!`);
+      
+      fetchData();
+    } catch (error) {
+      console.error('Error generating interviews:', error);
+      toast.error(error.response?.data?.error || 'Failed to auto-schedule interviews');
+    } finally {
+      setGeneratingInterviews(false);
+    }
+  };
+
   const [formData, setFormData] = useState({
     day_of_week: 2,
     start_time: '08:00',
