@@ -448,7 +448,7 @@ const Landing = () => {
                 onClick={handleLogin}
                 className="bg-white text-black hover:bg-zinc-200 px-10 py-5 rounded-full font-medium text-lg flex items-center transition-all"
               >
-                Start free trial
+                Let's Start
                 <ArrowRightIcon className="ml-3 h-5 w-5" />
               </Button>
             </div>
