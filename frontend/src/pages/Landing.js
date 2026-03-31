@@ -464,12 +464,7 @@ const Landing = () => {
               <BriefcaseIcon className="h-5 w-5 text-zinc-400" />
               <span className="text-base font-medium text-zinc-400 tracking-tight">HR Assistant</span>
             </div>
-            <div className="flex gap-8 text-sm">
-              <button className="hover:text-white transition-colors">Platform</button>
-              <button className="hover:text-white transition-colors">Documentation</button>
-              <button className="hover:text-white transition-colors">Privacy</button>
-              <button className="hover:text-white transition-colors">Terms</button>
-            </div>
+            
           </div>
           <div className="mt-8 pt-8 border-t border-white/[0.05] text-center text-xs text-zinc-600">
             &copy; 2026 HR Assistant Inc. All rights reserved.
