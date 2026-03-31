@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
   SparklesIcon,
-  CheckCircleIcon,
+  
   ArrowRightIcon,
   EnvelopeIcon,
   BriefcaseIcon,
@@ -93,7 +93,7 @@ const Landing = () => {
 
   return (
     <div className="min-h-screen bg-[#050505] text-zinc-300 font-sans selection:bg-zinc-800 selection:text-white overflow-hidden">
-      {/* Navigation */}
+      
       <nav className="fixed w-full z-50 bg-[#050505]/60 backdrop-blur-xl border-b border-white/[0.05]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -130,21 +130,21 @@ const Landing = () => {
         </div>
       </nav>
 
-      {/* Modern Hero Section */}
+      
       <motion.section 
         className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 min-h-screen flex items-center justify-center border-b border-white/[0.05]"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        {/* Background Effects */}
+        
         <div className="absolute inset-0 bg-[#050505]" />
         
-        {/* Subtle glowing orb in the center */}
+       
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-white opacity-[0.03] blur-[100px] rounded-full pointer-events-none" />
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.15] to-transparent" />
         
-        {/* Fine grid */}
+        
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
@@ -185,7 +185,7 @@ const Landing = () => {
               </Button>
             </motion.div>
 
-            {/* Abstract Dashboard Preview Element */}
+            
             <motion.div 
               variants={itemVariants} 
               className="mt-20 w-full max-w-5xl rounded-t-2xl border-t border-l border-r border-white/[0.08] bg-[#0a0a0a] h-[300px] sm:h-[400px] overflow-hidden relative shadow-[0_-20px_60px_-15px_rgba(255,255,255,0.03)]"
@@ -228,9 +228,9 @@ const Landing = () => {
                       </div>
                       <div className="space-y-3">
                         {[
-                          { name: 'Sarah Miller', role: 'Frontend Engineer', score: '98%', status: 'Shortlisted' },
-                          { name: 'David Chen', role: 'Product Manager', score: '92%', status: 'Shortlisted' },
-                          { name: 'Elena Rodriguez', role: 'UX Designer', score: '85%', status: 'In Review' }
+                          { name: 'Birhan Nega', role: 'Full-Stack Developer', score: '98%', status: 'Shortlisted' },
+                          { name: 'Yonas Belete', role: 'Product Manager', score: '92%', status: 'Shortlisted' },
+                          { name: 'Henok Asaye', role: 'UX Designer', score: '35%', status: 'Rejected' }
                         ].map((cand, i) => (
                           <div key={i} className="flex justify-between items-center p-3 border border-white/[0.05] rounded-xl bg-white/[0.02] hover:bg-white/[0.04] transition-colors">
                             <div className="flex items-center gap-3">
@@ -326,14 +326,14 @@ const Landing = () => {
                   )}
                 </div>
               </div>
-              {/* Gradient fade out at bottom */}
+              
               <div className="absolute bottom-0 w-full h-32 bg-gradient-to-t from-[#050505] to-transparent z-10" />
             </motion.div>
           </div>
         </div>
       </motion.section>
 
-      {/* Workflow/How it works Section */}
+      
       <section id="workflow" className="py-32 bg-[#050505] border-b border-white/[0.05]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
@@ -361,7 +361,7 @@ const Landing = () => {
                 transition={{ duration: 0.5, delay: index * 0.15 }}
                 className="relative"
               >
-                {/* Connecting abstract line */}
+                
                 {index !== workflowSteps.length - 1 && (
                   <div className="hidden md:block absolute top-6 left-1/2 w-full h-px bg-gradient-to-r from-zinc-800 to-transparent" />
                 )}
@@ -379,7 +379,7 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Features Grid Section */}
+      
       <section id="features" className="py-32 bg-[#0a0a0a]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
@@ -425,7 +425,7 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Final CTA Section */}
+      
       <section className="py-32 bg-[#050505] border-t border-white/[0.05] relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-white/[0.02] blur-[120px] rounded-full pointer-events-none" />
         
@@ -456,7 +456,7 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Footer */}
+      
       <footer className="bg-[#050505] text-zinc-500 pb-12 pt-12 border-t border-white/[0.05]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
