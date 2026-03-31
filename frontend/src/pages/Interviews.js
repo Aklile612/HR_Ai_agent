@@ -236,6 +236,16 @@ const Interviews = () => {
         </div>
         
         <div className="flex gap-2">
+          <Button
+            onClick={handleGenerateInterviews}
+            loading={generatingInterviews}
+            className="w-full sm:w-auto"
+            variant="default"
+          >
+            <SparklesIcon className="h-4 w-4 mr-2" />
+            <span className="hidden sm:inline">Auto-Schedule Shortlisted</span>
+            <span className="sm:hidden">Auto-Schedule</span>
+          </Button>
           {interviews.length > 0 && (
             <Button
               onClick={handleSendEmailToAll}
