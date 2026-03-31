@@ -52,7 +52,11 @@ const Interviews = () => {
         interviewsAPI.getAll().catch(() => ({ data: { data: [] } }))
       ]);
       
-      setAvailability(availabilityRes.data.data || []);
+      const fetchedAvailability = availabilityRes.data.data || [];
+      setAvailability(fetchedAvailability);
+      if (fetchedAvailability.length === 0) {
+        setShowEditAvailability(true);
+      }
       // Handle both array and object responses from Supabase
       const interviewsData = interviewsRes.data.data || [];
       const normalizedInterviews = interviewsData.map(interview => ({
@@ -182,113 +186,6 @@ const Interviews = () => {
     );
   }
 
-  // Show availability form if no availability exists
-  if (availability.length === 0) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="space-y-6"
-      >
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Set Your Availability</h1>
-          <p className="text-sm sm:text-base text-zinc-500 mt-1">
-            Set your available days and time ranges for interviews
-          </p>
-        </div>
-
-        <Card className="max-w-4xl">
-          <CardHeader>
-            <CardTitle>Add Time Slots</CardTitle>
-            <CardDescription>
-              Define when you're available for interviews. You can add multiple time slots.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-              <div className="sm:col-span-1">
-                <label className="text-sm font-medium mb-2 block">Day of Week</label>
-                <select
-                  value={formData.day_of_week}
-                  onChange={(e) => setFormData({ ...formData, day_of_week: parseInt(e.target.value) })}
-                  className="w-full h-10 px-3 flex rounded-md border border-white/[0.08] bg-[#050505] text-sm text-zinc-300 focus-visible:outline-none focus-visible:border-white/[0.2]"
-                >
-                  {DAYS.map(day => (
-                    <option key={day.value} value={day.value}>{day.label}</option>
-                  ))}
-                </select>
-              </div>
-              
-              <div className="sm:col-span-1">
-                <label className="text-sm font-medium mb-2 block">Start Time</label>
-                <Input
-                  type="time"
-                  value={formData.start_time}
-                  onChange={(e) => setFormData({ ...formData, start_time: e.target.value })}
-                />
-              </div>
-              
-              <div className="sm:col-span-1">
-                <label className="text-sm font-medium mb-2 block">End Time</label>
-                <Input
-                  type="time"
-                  value={formData.end_time}
-                  onChange={(e) => setFormData({ ...formData, end_time: e.target.value })}
-                />
-              </div>
-              
-              <div className="sm:col-span-1 flex items-end">
-                <Button onClick={handleAddTimeSlot} className="w-full">
-                  <PlusIcon className="h-4 w-4 mr-2" />
-                  Add Slot
-                </Button>
-              </div>
-            </div>
-
-            {availability.length > 0 && (
-              <div className="space-y-2">
-                <h3 className="text-sm font-medium">Your Availability:</h3>
-                <div className="space-y-2">
-                  {availability.map((slot, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between p-3 rounded-lg border bg-[#0a0a0a] border border-white/[0.05]/50"
-                    >
-                      <div className="flex items-center gap-4">
-                        <Badge variant="secondary">{getDayName(slot.day_of_week)}</Badge>
-                        <span className="text-sm">
-                          {slot.start_time} - {slot.end_time}
-                        </span>
-                      </div>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleRemoveTimeSlot(index)}
-                      >
-                        <TrashIcon className="h-4 w-4 text-destructive" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {availability.length > 0 && (
-              <Button
-                onClick={handleSaveAvailability}
-                loading={savingAvailability}
-                className="w-full sm:w-auto"
-                size="lg"
-              >
-                Save Availability
-              </Button>
-            )}
-          </CardContent>
-        </Card>
-      </motion.div>
-    );
-  }
-
   // Show interviews if availability exists
   return (
     <motion.div
@@ -320,10 +217,6 @@ const Interviews = () => {
             variant="outline"
             onClick={() => {
               setShowEditAvailability(!showEditAvailability);
-              if (!showEditAvailability) {
-                // Load current availability into form
-                fetchData();
-              }
             }}
             className="w-full sm:w-auto"
           >
@@ -396,7 +289,7 @@ const Interviews = () => {
                     {availability.map((slot, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between p-3 rounded-lg border bg-[#0a0a0a] border border-white/[0.05]/50"
+                        className="flex items-center justify-between p-3 rounded-lg border bg-white/[0.02] border border-white/[0.05]"
                       >
                         <div className="flex items-center gap-4">
                           <Badge variant="secondary">{getDayName(slot.day_of_week)}</Badge>
@@ -518,7 +411,7 @@ const Interviews = () => {
               {availability.map((slot, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-3 rounded-lg border bg-[#0a0a0a] border border-white/[0.05]/50"
+                  className="flex items-center justify-between p-3 rounded-lg border bg-white/[0.02] border border-white/[0.05]"
                 >
                   <div className="flex items-center gap-3">
                     <CheckCircleIcon className="h-5 w-5 text-green-600 flex-shrink-0" />
