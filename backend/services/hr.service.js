@@ -5,7 +5,7 @@ const { supabase } = require('../config/supabase.config');
 class HRService {
   
   static generateApiKey() {
-    return crypto.randomBytes(32).toString('hex'); // 64-char hex key
+    return crypto.randomBytes(32).toString('hex'); 
   }
 
   
