@@ -40,7 +40,7 @@ const Auth = () => {
 
     try {
       if (isLogin) {
-        // Login
+        
         await authService.login({
           email: formData.email,
           password: formData.password
@@ -49,7 +49,7 @@ const Auth = () => {
         toast.success('Login successful!');
         navigate('/dashboard');
       } else {
-        // Register
+        
         await authService.register({
           name: formData.name,
           email: formData.email,
@@ -79,7 +79,7 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-[#050505] text-zinc-300 font-sans selection:bg-zinc-800 selection:text-white flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background Effects */}
+      
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-white opacity-[0.03] blur-[100px] rounded-full pointer-events-none" />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_40%,#000_70%,transparent_100%)] pointer-events-none" />
 
@@ -89,7 +89,7 @@ const Auth = () => {
         transition={{ duration: 0.5 }}
         className="w-full max-w-md relative z-10"
       >
-        {/* Logo */}
+        
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-white/[0.03] border border-white/[0.08] rounded-2xl mb-4 shadow-[0_0_40px_-10px_rgba(255,255,255,0.05)]">
             <BriefcaseIcon className="h-8 w-8 text-white" />
@@ -109,7 +109,7 @@ const Auth = () => {
             </h2>
           
             <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Name field (only for registration) */}
+              
               {!isLogin && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
@@ -154,7 +154,7 @@ const Auth = () => {
                 </div>
               </div>
 
-              {/* Password field */}
+              
               <div>
                 <label className="block text-sm font-medium text-zinc-400 mb-1.5">
                   Password
@@ -189,7 +189,7 @@ const Auth = () => {
                 )}
               </div>
 
-              {/* Submit button */}
+              
               <Button
                 type="submit"
                 className="w-full bg-white text-black hover:bg-zinc-200 transition-colors py-2.5 rounded-lg text-sm font-medium mt-2"
@@ -200,7 +200,7 @@ const Auth = () => {
               </Button>
             </form>
 
-            {/* Toggle between login/register */}
+            
             <div className="text-center pt-6 mt-6 border-t border-white/[0.05]">
               <p className="text-sm text-zinc-500 font-light">
                 {isLogin ? "Don't have an account?" : 'Already have an account?'}
@@ -216,7 +216,7 @@ const Auth = () => {
           </div>
         </div>
 
-        {/* Back to landing */}
+       
         <div className="text-center mt-6">
           <button
             onClick={() => navigate('/')}
