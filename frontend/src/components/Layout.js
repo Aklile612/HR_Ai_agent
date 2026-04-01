@@ -182,7 +182,7 @@ const SidebarContent = ({ navigation, location, onItemClick }) => {
               className="flex justify-start gap-3 w-full text-zinc-500 hover:text-white hover:bg-white/[0.05] rounded-lg"
             >
               <ArrowRightOnRectangleIcon className="h-4 w-4" />
-              <span className="text-sm font-medium">Log out securely</span>
+              <span className="text-sm font-medium">Log out</span>
             </Button>
           </Link>
       </div>
