@@ -173,7 +173,7 @@ const SidebarContent = ({ navigation, location, onItemClick }) => {
         })}
       </nav>
 
-      {/* Bottom section */}
+      
       <div className="p-4 border-t border-white/[0.05] space-y-2">        
         <Link to={"/auth"} className="flex items-center gap-2 w-full">
             <Button 
